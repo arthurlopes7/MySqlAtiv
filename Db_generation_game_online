@@ -1,0 +1,53 @@
+CREATE DATABASE db_generation_game_online;
+
+USE db_generation_game_online;
+
+CREATE TABLE tb_classes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL,
+    descricao VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE tb_personagens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    poder_ataque INT NOT NULL,
+    poder_defesa INT NOT NULL,
+    id_classe INT,
+    FOREIGN KEY (id_classe) REFERENCES tb_classes(id)
+);
+
+INSERT INTO tb_classes (nome, descricao) VALUES
+('Guerreiro', 'Classe focada em combate corpo a corpo, com alta defesa.'),
+('Mago', 'Classe com habilidades mágicas e alto poder de ataque.'),
+('Arqueiro', 'Classe especializada em ataques à distância com arcos e flechas.'),
+('Clérigo', 'Classe que utiliza magia para curar e proteger aliados.'),
+('Ladino', 'Classe ágil e furtiva, especializada em ataques rápidos e precisão.');
+
+INSERT INTO tb_personagens (nome, poder_ataque, poder_defesa, id_classe) VALUES
+('Arthur', 2200, 1500, 1), -- Guerreiro
+('Rafael', 3500, 500, 2),  -- Mago
+('Geandro', 1800, 700, 3),   -- Arqueiro
+('Fernando', 1200, 1000, 4),   -- Clérigo
+('Ezequiel', 2000, 400, 5),      -- Ladino
+('Danilo', 1600, 800, 1),     -- Guerreiro
+('Samira', 2500, 600, 2),     -- Mago
+('Liara', 1700, 750, 3);    -- Arqueiro
+
+SELECT * FROM tb_personagens
+WHERE poder_ataque > 2000;
+
+SELECT * FROM tb_personagens
+WHERE poder_defesa BETWEEN 1000 AND 2000;
+
+SELECT * FROM tb_personagens
+WHERE nome LIKE '%C%';
+
+SELECT p.id, p.nome AS personagem_nome, p.poder_ataque, p.poder_defesa, c.nome AS classe_nome
+FROM tb_personagens p
+INNER JOIN tb_classes c ON p.id_classe = c.id;
+
+SELECT p.id, p.nome AS personagem_nome, p.poder_ataque, p.poder_defesa
+FROM tb_personagens p
+INNER JOIN tb_classes c ON p.id_classe = c.id
+WHERE c.nome = 'Arqueiro';
